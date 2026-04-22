@@ -1,0 +1,26 @@
+# Gitleaks configuration
+# Docs: https://github.com/gitleaks/gitleaks#configuration
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Project allowlist"
+regexTarget = "line"
+regexes = [
+  # Client-side password hash constants (e.g. ADMIN_PASSWORD_HASH =
+  # '<64-hex>'). SHA-256 of a strong random password is not itself a
+  # usable secret — the real secret is the password. If you see this
+  # trigger, confirm the password is strong; don't weaken the pattern.
+  '''(?i)(ADMIN|COURSE|SITE|USER)?_?PASSWORD_HASH\s*[:=]\s*['"][a-f0-9]{64}['"]''',
+]
+
+paths = [
+  '''(^|/)node_modules/''',
+  '''(^|/)dist/''',
+  '''(^|/)build/''',
+  '''(^|/)\.next/''',
+  '''(^|/)\.firebase/''',
+  '''package-lock\.json$''',
+  '''yarn\.lock$''',
+  '''pnpm-lock\.yaml$''',
+]
